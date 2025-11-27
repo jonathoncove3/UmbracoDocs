@@ -21,6 +21,7 @@ You now have a model that contains your Form fields which can be used in your em
 Below is an example of an email template from the `~/Views/Partials/Forms/Emails/` folder:
 
 ```csharp
+@using Umbraco.Forms.Core.Extensions
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Forms.Core.Models.FormsHtmlModel>
 
 @{
