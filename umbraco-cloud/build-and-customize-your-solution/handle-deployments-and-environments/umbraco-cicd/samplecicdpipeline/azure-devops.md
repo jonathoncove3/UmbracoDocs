@@ -155,7 +155,7 @@ You will also need the alias of the environment you want to target. The [Getting
 <figure><img src="../../../set-up-your-project/project-settings/images/Pipeline3.png" alt=""><figcaption><p>Configure pipeline with existing YAML file</p></figcaption></figure>
 
 * Select `main` (or `master` if you did not change the branch name) in Branch
-* Select `/devops/azure-release-pipeline.yaml` in Path and continue
+* Select `/devops/powershell/azure-release-pipeline.yaml` in Path and continue
 
 <figure><img src="../../../set-up-your-project/project-settings/images/Pipeline4.png" alt=""><figcaption><p>Select Branch and Path</p></figcaption></figure>
 
