@@ -196,12 +196,15 @@ If you already have a members-only page with the edit profile options, you can s
         <div asp-validation-summary="All" class="text-danger"></div>
         foreach (var provider in providerNameList)
         {
-            var setupData = await MemberTwoFactorLoginService.GetSetupInfoAsync(profileModel.Key, provider.ProviderName);
+            Umbraco.Cms.Core.Attempt<ISetupTwoFactorModel, TwoFactorOperationStatus>? setupData = null;
+            
+            //if getting the setupinfo throws an error, it means the provider is for Users, not Members
+            try { setupData = await _memberTwoFactorLoginService.GetSetupInfoAsync(profileModel.Key, provider.ProviderName); } catch { continue; }
 
-            // If the `setupData.Success` is `true` for the specified `providerName` it means the provider is not set up.
-            if (setupData.Success)
+            // If the `setupData.Value.Success` is `true` for the specified `providerName` it means the provider is not set up.
+            if (setupData.Value.Success)
             {
-                if (setupData.Result is QrCodeSetupData qrCodeSetupData)
+                if (setupData.Value.Result is QrCodeSetupData qrCodeSetupData)
                 {
                     @using (Html.BeginUmbracoForm<UmbTwoFactorLoginController>(nameof(UmbTwoFactorLoginController.ValidateAndSaveSetup)))
                     {
@@ -215,7 +218,7 @@ If you already have a members-only page with the edit profile options, you can s
                     }
                 }
             }
-            // If `setupData.Success` is `false` the provider is already setup.
+            // If `setupData.Value.Success` is `false` the provider is already setup.
             // In this case, a button to disable the authentication is shown.
             else
             {
